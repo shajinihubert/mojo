@@ -1,0 +1,10 @@
+NET "portSum" LOC = P50;
+NET "portSum" IOSTANDARD = LVTTL;
+NET "portCout" LOC = P51;
+NET "portCout" IOSTANDARD = LVTTL;
+NET "portA" LOC = P58;
+NET "portA" IOSTANDARD = LVTTL;
+NET "portB" LOC = P57;
+NET "portB" IOSTANDARD = LVTTL;
+NET "portCin" LOC = P66;
+NET "portCin" IOSTANDARD = LVTTL;
