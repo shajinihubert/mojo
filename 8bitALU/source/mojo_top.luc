@@ -15,29 +15,16 @@ module mojo_top (
     output io_seg [8],      // 7-segment LEDs on IO Shield
     output io_sel [4],      // Digit select on IO Shield
     input io_button [5],    // 5 buttons on IO Shield
-    input io_dip [3][8],     // DIP switches on IO Shield
-    input portSum,
-    input portCout,
-    output portA,
-    output portB,
-    output portCin
+    input io_dip [3][8]     // DIP switches on IO Shield
   ) {
   
   sig rst;                  // reset signal
-  sig sum;
-  sig cout;
   
   .clk(clk) {
     // The reset conditioner is used to synchronize the reset signal to the FPGA
     // clock. This ensures the entire FPGA comes out of reset at the same time.
     reset_conditioner reset_cond;
-    .rst(rst){
-    fsm state = {CORRECT,WRONG};
-    fsm autoState = {ZZZ,ZZO,ZOZ,ZOO,OZZ,OZO,OOZ,OOO}; //different states Z= 0, O=1
-    }
   }
-  
-  dff counter[25](.clk(clk),.rst(rst));
   
   always {
     reset_cond.in = ~rst_n; // input raw inverted reset signal
@@ -51,32 +38,5 @@ module mojo_top (
     io_led = 3x{{8h00}};    // turn LEDs off
     io_seg = 8hff;          // turn segments off
     io_sel = 4hf;           // select no digits
-    
-    led[0] = rst;
-    
-    //io_led[0][0] = io_dip[0][0] & io_dip[0][1];
-    
-    portA = io_dip[0][0]; //map first Switch to physical port A
-    portB = io_dip[0][1]; //map Second Switch to physical port B
-    portCin = io_dip[0][2]; //map Third Switch to physical port Cin
-    
-    sum = io_dip[0][0] ^ io_dip[0][1] ^ io_dip[0][2]; // sum operation
-    cout = (io_dip[0][1] & io_dip[0][2]) | (io_dip[0][0] & io_dip[0][2]) | (io_dip[0][0] & io_dip[0][1]); // Cout operation
-    
-    io_led[0][0] = sum; //maping LED to sum
-    io_led[0][1] = cout; //maping LED to cout
-    
-    if(sum == portSum && cout == portCout) io_led[2][0] = 1; //light up if the calculation was wrong
-    else io_led[2][0] = 0; //unlight it if not
-    
-    case(autoState.q){
-      autoState.ZZZ:
-        portA = 0;
-        portB = 0;
-        portCin = 0;
-        autoState.d = state.CORRECT;
-    }
-      
-    
   }
 }
