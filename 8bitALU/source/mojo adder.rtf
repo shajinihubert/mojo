@@ -1,24 +1,16 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
-\deftab720
-\pard\pardeftab720
-
-\f0\fs30 \cf0 \expnd0\expndtw0\kerning0
-module 8bitadder (\
-	input a[8]\
-	input b[8]\
-	input ALUFN0\
-	output sum[8]	) \
-	\{\
-	always \{\
-	case(ALUFN0) \{\
-	1:\
-	sum = a - b;\
-	\
-	0:\
-	sum = a + b;\
-	\}\
-	\}\
-	\}}
+module 8bitadder (
+	input a[8]
+	input b[8]
+	input ALUFN0
+	output sum[8]	) 
+	{
+		always {
+		case(ALUFN0) {
+		1:
+		sum = a - b;
+	
+		0:
+		sum = a + b;
+		}
+		}
+	}
